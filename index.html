@@ -4,123 +4,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wasteless - Smart Kitchen</title>
-
-    <!-- Google Fonts: Outfit for that modern, premium startup look -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>Wasteless - Login</title>
+    <!-- Google Fonts: Outfit -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-
-    <!-- Animated Background Mesh -->
-    <div class="gradient-bg">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
+    <div class="emoji-bg">
+        <div class="floating-emoji" style="left: 10%; animation-delay: 0s;">🥑</div>
+        <div class="floating-emoji" style="left: 20%; animation-delay: 2s;">🍞</div>
+        <div class="floating-emoji" style="left: 35%; animation-delay: 5s;">🥕</div>
+        <div class="floating-emoji" style="left: 50%; animation-delay: 1s;">🥡</div>
+        <div class="floating-emoji" style="left: 65%; animation-delay: 3s;">🥗</div>
+        <div class="floating-emoji" style="left: 80%; animation-delay: 6s;">🍎</div>
+        <div class="floating-emoji" style="left: 90%; animation-delay: 4s;">🥛</div>
     </div>
+    <div class="auth-container">
 
-    <!-- Landing Page (Login) -->
-    <section id="landing-page" class="landing-container">
-        <div class="landing-content glass-card">
-            <h1>Wasteless</h1>
-            <p class="slogan">Save Food. Feed People.</p>
+        <!-- Role Selection Screen -->
+        <div id="role-selection" class="auth-card fade-in">
+            <h1 class="brand-title">Wasteless</h1>
+            <p class="brand-subtitle">Smart Kitchen & Food Rescue</p>
 
-            <!-- Dynamic Impact Stats -->
-            <div id="impact-stats" class="impact-box">
-                <p>Together we have saved</p>
-                <h2 id="total-wasted-display">0 kg</h2>
-                <p>of food, which could feed</p>
-                <h2 id="people-fed-display">0 people</h2>
-            </div>
-
-            <button id="login-btn" class="gradient-btn-full">Get Started</button>
-        </div>
-    </section>
-
-    <!-- Main App Container (Hidden Initially) -->
-    <main id="app" class="hidden">
-
-        <!-- Wrapper for Header & Content (Right Side on Desktop, Top on Mobile) -->
-        <div class="main-content-wrapper">
-            <!-- Header -->
-            <header class="glass-header">
-                <div class="header-content">
-                    <h1 id="page-title">Wasteless</h1>
-                    <button class="icon-btn theme-toggle">
-                        <i data-lucide="moon"></i>
-                    </button>
+            <div class="role-grid">
+                <!-- User Role -->
+                <div class="role-card" onclick="selectRole('user')">
+                    <div class="role-icon">
+                        <i data-lucide="chef-hat"></i>
+                    </div>
+                    <h3>User</h3>
+                    <p>I want to manage my kitchen and reduce waste.</p>
                 </div>
-            </header>
 
-            <!-- Content Area -->
-            <section id="content-area">
-                <!-- Dynamic Content Injected Here -->
-            </section>
-
-            <!-- Floating Action Button (FAB) -->
-            <button id="fab-add" class="fab">
-                <i data-lucide="plus"></i>
-            </button>
+                <!-- Buyer Role -->
+                <div class="role-card" onclick="selectRole('buyer')">
+                    <div class="role-icon">
+                        <i data-lucide="shopping-bag"></i>
+                    </div>
+                    <h3>Buyer</h3>
+                    <p>I want to buy rescued food at lower prices.</p>
+                </div>
+            </div>
         </div>
 
-        <!-- Bottom Navigation / Sidebar -->
-        <nav class="glass-nav">
-            <button class="nav-item active" data-tab="pantry">
-                <i data-lucide="package"></i>
-                <span>Pantry</span>
-            </button>
-            <button class="nav-item" data-tab="predict">
-                <i data-lucide="bar-chart-2"></i>
-                <span>Predict</span>
-            </button>
-            <button class="nav-item" data-tab="tips">
-                <i data-lucide="lightbulb"></i>
-                <span>Tips</span>
-            </button>
-            <button class="nav-item" data-tab="reminders">
-                <i data-lucide="bell"></i>
-                <span>Alerts</span>
-            </button>
-        </nav>
+        <!-- User Authentication Forms (Hidden) -->
+        <div id="user-auth" class="auth-card hidden">
+            <button class="back-btn" onclick="showRoles()"><i data-lucide="arrow-left"></i> Back</button>
+            <h2 id="user-form-title">User Login</h2>
 
-    </main>
-
-    <!-- Add Item Modal -->
-    <div id="modal-container" class="modal-overlay hidden">
-        <div class="glass-modal">
-            <div class="modal-header">
-                <h2>Add Item</h2>
-                <button id="close-modal" class="icon-btn"><i data-lucide="x"></i></button>
-            </div>
-            <form id="add-item-form">
+            <!-- User Login -->
+            <form id="user-login-form" class="auth-form">
                 <div class="input-group">
-                    <label>Item Name</label>
-                    <input type="text" id="item-name" placeholder="e.g., Avocados" required>
+                    <i data-lucide="mail"></i>
+                    <input type="email" placeholder="Email Address" required>
                 </div>
-
                 <div class="input-group">
-                    <label>Quantity</label>
-                    <input type="number" id="item-qty" placeholder="1" required>
+                    <i data-lucide="lock"></i>
+                    <input type="password" placeholder="Password" required>
                 </div>
+                <button type="submit" class="primary-btn">Login</button>
+                <p class="switch-text">New here? <span onclick="toggleForm('user', 'register')">Create Account</span>
+                </p>
+            </form>
 
+            <!-- User Register -->
+            <form id="user-register-form" class="auth-form hidden">
                 <div class="input-group">
-                    <label>Expiry Date</label>
-                    <input type="date" id="item-expiry" required>
+                    <i data-lucide="user"></i>
+                    <input type="text" placeholder="Full Name" required>
                 </div>
-
-                <button type="submit" class="gradient-btn-full">Add to Pantry</button>
+                <div class="input-group">
+                    <i data-lucide="mail"></i>
+                    <input type="email" placeholder="Email Address" required>
+                </div>
+                <div class="input-group">
+                    <i data-lucide="lock"></i>
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <div class="input-group">
+                    <i data-lucide="check-circle"></i>
+                    <input type="password" placeholder="Confirm Password" required>
+                </div>
+                <button type="submit" class="primary-btn">Register</button>
+                <p class="switch-text">Already have an account? <span onclick="toggleForm('user', 'login')">Login</span>
+                </p>
             </form>
         </div>
+
+        <!-- Buyer Authentication Forms (Hidden) -->
+        <div id="buyer-auth" class="auth-card hidden">
+            <button class="back-btn" onclick="showRoles()"><i data-lucide="arrow-left"></i> Back</button>
+            <h2 id="buyer-form-title">Buyer Login</h2>
+
+            <!-- Buyer Login -->
+            <form id="buyer-login-form" class="auth-form">
+                <div class="input-group">
+                    <i data-lucide="mail"></i>
+                    <input type="email" placeholder="Email Address" required>
+                </div>
+                <div class="input-group">
+                    <i data-lucide="lock"></i>
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="primary-btn">Login</button>
+                <p class="switch-text">Want to rescue food? <span onclick="toggleForm('buyer', 'register')">Register as
+                        Buyer</span></p>
+            </form>
+
+            <!-- Buyer Register -->
+            <form id="buyer-register-form" class="auth-form hidden">
+                <div class="input-group">
+                    <i data-lucide="user"></i>
+                    <input type="text" placeholder="Business / Full Name" required>
+                </div>
+                <div class="input-group">
+                    <i data-lucide="phone"></i>
+                    <input type="tel" placeholder="Phone Number" required>
+                </div>
+                <div class="input-group">
+                    <i data-lucide="mail"></i>
+                    <input type="email" placeholder="Email Address" required>
+                </div>
+                <div class="input-group">
+                    <i data-lucide="lock"></i>
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <div class="input-group">
+                    <i data-lucide="check-circle"></i>
+                    <input type="password" placeholder="Confirm Password" required>
+                </div>
+                <button type="submit" class="primary-btn">Register</button>
+                <p class="switch-text">Already a buyer? <span onclick="toggleForm('buyer', 'login')">Login</span></p>
+            </form>
+        </div>
+
     </div>
 
-    <script src="app.js"></script>
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 
 </html>
