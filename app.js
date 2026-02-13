@@ -1,10 +1,26 @@
 // --- State ---
+const getSavedItems = () => {
+    try {
+        const saved = localStorage.getItem('wasteless_items');
+        if (!saved) return null;
+
+        const parsed = JSON.parse(saved);
+        if (!Array.isArray(parsed)) return null;
+
+        // Filter out bad data (nulls, or items without names)
+        return parsed.filter(i => i && typeof i === 'object' && i.name);
+    } catch (e) {
+        console.error("Data corruption detected, resetting inventory:", e);
+        return null;
+    }
+};
+
 const state = {
     currentTab: 'pantry',
-    items: JSON.parse(localStorage.getItem('wasteless_items')) || [
-        { id: 1, name: 'Milk', qty: 1, expiry: '2025-10-25' },
-        { id: 2, name: 'Avocados', qty: 3, expiry: '2024-02-14' }, // Example risky
-        { id: 3, name: 'Yogurt', qty: 2, expiry: '2023-12-01' }, // Example expired
+    items: getSavedItems() || [
+        { id: 1, name: 'Milk 🥛', qty: 1, expiry: '2026-02-20' },
+        { id: 2, name: 'Avocados 🥑', qty: 3, expiry: '2026-02-18' },
+        { id: 3, name: 'Yogurt 🍦', qty: 2, expiry: '2026-02-10' },
     ],
     tips: [
         { title: "Store Potatoes with Apples", content: "Apples release ethylene gas which keeps potatoes from sprouting!" },
@@ -322,19 +338,56 @@ const calculateImpact = () => {
 // --- Rendering Functions ---
 // ... (existing render functions) ...
 
-loginBtn.addEventListener('click', () => {
-    landingPage.style.opacity = '0';
-    setTimeout(() => {
-        landingPage.classList.add('hidden');
-        appMain.classList.remove('hidden');
-        render(); // Ensure app renders correctly
-    }, 500);
-});
-
 // --- Init ---
-calculateImpact(); // Run stats on load
-initIcons();
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("Wasteless App Initializing...");
 
-// Don't render app immediately if we want login first
-// But render() is safe to call, it just updates DOM in hidden app
-render();
+    const landingPage = document.getElementById('landing-page');
+    const appMain = document.getElementById('app');
+
+    // 1. Try to find the Login FORM first
+    const loginForm = document.getElementById('login-form');
+
+    if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            console.log("Login Form Submitted");
+
+            // Simple visual validation
+            const email = loginForm.querySelector('input[type="email"]').value;
+            if (!email) {
+                alert("Please enter an email address");
+                return;
+            }
+
+            // Transition
+            landingPage.style.opacity = '0';
+            setTimeout(() => {
+                landingPage.classList.add('hidden');
+                appMain.classList.remove('hidden');
+                render();
+            }, 500);
+        });
+    }
+    // 2. Fallback to Button (if form not found for some reason)
+    else {
+        const btn = document.getElementById('login-btn');
+        if (btn) {
+            btn.addEventListener('click', (e) => {
+                // Check if it's inside a form and prevent default if so
+                if (btn.type === 'submit') e.preventDefault();
+
+                landingPage.style.opacity = '0';
+                setTimeout(() => {
+                    landingPage.classList.add('hidden');
+                    appMain.classList.remove('hidden');
+                    render();
+                }, 500);
+            });
+        }
+    }
+
+    calculateImpact();
+    initIcons();
+    render();
+});
