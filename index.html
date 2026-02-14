@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wasteless - Login</title>
+    <!-- Google Fonts: Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="emoji-bg">
+        <div class="floating-emoji" style="left: 10%; animation-delay: 0s;">🥑</div>
+        <div class="floating-emoji" style="left: 20%; animation-delay: 2s;">🍞</div>
+        <div class="floating-emoji" style="left: 35%; animation-delay: 5s;">🥕</div>
+        <div class="floating-emoji" style="left: 50%; animation-delay: 1s;">🥡</div>
+        <div class="floating-emoji" style="left: 65%; animation-delay: 3s;">🥗</div>
+        <div class="floating-emoji" style="left: 80%; animation-delay: 6s;">🍎</div>
+        <div class="floating-emoji" style="left: 90%; animation-delay: 4s;">🥛</div>
+    </div>
+    <div class="auth-container">
+
+        <!-- Role Selection Screen -->
+        <div id="role-selection" class="auth-card fade-in">
+            <h1 class="brand-title">Wasteless</h1>
+            <p class="brand-subtitle">Smart Kitchen & Food Rescue</p>
+
+            <div class="role-grid">
+                <!-- User Role -->
+                <div class="role-card" onclick="selectRole('user')">
+                    <div class="role-icon">
+                        <i data-lucide="chef-hat"></i>
+                    </div>
+                    <h3>User</h3>
+                    <p>I want to manage my kitchen and reduce waste.</p>
+                </div>
+
+                <!-- Buyer Role -->
+                <div class="role-card" onclick="selectRole('buyer')">
+                    <div class="role-icon">
+                        <i data-lucide="shopping-bag"></i>
+                    </div>
+                    <h3>Buyer</h3>
+                    <p>I want to buy rescued food at lower prices.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Authentication Forms (Hidden) -->
+        <div id="user-auth" class="auth-card hidden">
+            <button class="back-btn" onclick="showRoles()"><i data-lucide="arrow-left"></i> Back</button>
+            <h2 id="user-form-title">User Login</h2>
+
+            <!-- User Login -->
+            <form id="user-login-form" class="auth-form">
+                <div class="input-group">
+                    <i data-lucide="mail"></i>
+                    <input type="email" placeholder="Email Address" required>
+                </div>
+                <div class="input-group">
+                    <i data-lucide="lock"></i>
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="primary-btn">Login</button>
+                <p class="switch-text">New here? <span onclick="toggleForm('user', 'register')">Create Account</span>
+                </p>
+            </form>
+
+            <!-- User Register -->
+            <form id="user-register-form" class="auth-form hidden">
+                <div class="input-group">
+                    <i data-lucide="user"></i>
+                    <input type="text" placeholder="Full Name" required>
+                </div>
+                <div class="input-group">
+                    <i data-lucide="mail"></i>
+                    <input type="email" placeholder="Email Address" required>
+                </div>
+                <div class="input-group">
+                    <i data-lucide="lock"></i>
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <div class="input-group">
+                    <i data-lucide="check-circle"></i>
+                    <input type="password" placeholder="Confirm Password" required>
+                </div>
+                <button type="submit" class="primary-btn">Register</button>
+                <p class="switch-text">Already have an account? <span onclick="toggleForm('user', 'login')">Login</span>
+                </p>
+            </form>
+        </div>
+
+        <!-- Buyer Authentication Forms (Hidden) -->
+        <div id="buyer-auth" class="auth-card hidden">
+            <button class="back-btn" onclick="showRoles()"><i data-lucide="arrow-left"></i> Back</button>
+            <h2 id="buyer-form-title">Buyer Login</h2>
+
+            <!-- Buyer Login -->
+            <form id="buyer-login-form" class="auth-form">
+                <div class="input-group">
+                    <i data-lucide="mail"></i>
+                    <input type="email" placeholder="Email Address" required>
+                </div>
+                <div class="input-group">
+                    <i data-lucide="lock"></i>
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="primary-btn">Login</button>
+                <p class="switch-text">Want to rescue food? <span onclick="toggleForm('buyer', 'register')">Register as
+                        Buyer</span></p>
+            </form>
+
+            <!-- Buyer Register -->
+            <form id="buyer-register-form" class="auth-form hidden">
+                <div class="input-group">
+                    <i data-lucide="user"></i>
+                    <input type="text" placeholder="Business / Full Name" required>
+                </div>
+                <div class="input-group">
+                    <i data-lucide="phone"></i>
+                    <input type="tel" placeholder="Phone Number" required>
+                </div>
+                <div class="input-group">
+                    <i data-lucide="mail"></i>
+                    <input type="email" placeholder="Email Address" required>
+                </div>
+                <div class="input-group">
+                    <i data-lucide="lock"></i>
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <div class="input-group">
+                    <i data-lucide="check-circle"></i>
+                    <input type="password" placeholder="Confirm Password" required>
+                </div>
+                <button type="submit" class="primary-btn">Register</button>
+                <p class="switch-text">Already a buyer? <span onclick="toggleForm('buyer', 'login')">Login</span></p>
+            </form>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

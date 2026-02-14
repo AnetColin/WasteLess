@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wasteless - Seller Pantry</title>
+    <!-- Google Fonts: Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+
+    <!-- Animated Background Mesh -->
+    <div class="gradient-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <!-- Main App Container -->
+    <main id="app">
+        <!-- Header -->
+        <header class="glass-header">
+            <div class="header-content">
+                <h1 id="page-title">Wasteless - Pantry</h1>
+                <a href="index.html" style="color:var(--danger); text-decoration:none;"><i
+                        data-lucide="log-out"></i></a>
+            </div>
+        </header>
+
+        <!-- Content Area -->
+        <section id="content-area">
+            <!-- Items injected by JS -->
+        </section>
+
+        <!-- Floating Add Button -->
+        <div id="fab-add" class="fab">
+            <i data-lucide="plus"></i>
+        </div>
+
+        <!-- Add Item Modal -->
+        <div id="modal-container" class="hidden">
+            <div class="glass-card" style="width: 100%; max-width: 400px; background: white;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:1rem;">
+                    <h2>Add Item</h2>
+                    <button id="close-modal" style="background:none; border:none; cursor:pointer;"><i
+                            data-lucide="x"></i></button>
+                </div>
+                <form id="add-item-form">
+                    <div style="margin-bottom:1rem;">
+                        <label style="display:block; margin-bottom:0.5rem;">Item Name</label>
+                        <input type="text" id="item-name" placeholder="e.g. Milk" required
+                            style="width:100%; padding:0.8rem; border:1px solid #e5e7eb; border-radius:10px;">
+                    </div>
+                    <div style="display:flex; gap:1rem; margin-bottom:1rem;">
+                        <div style="flex:1;">
+                            <label style="display:block; margin-bottom:0.5rem;">Quantity</label>
+                            <input type="number" id="item-qty" value="1" min="1" required
+                                style="width:100%; padding:0.8rem; border:1px solid #e5e7eb; border-radius:10px;">
+                        </div>
+                        <div style="flex:1;">
+                            <label style="display:block; margin-bottom:0.5rem;">Expiry Date</label>
+                            <input type="date" id="item-expiry" required
+                                style="width:100%; padding:0.8rem; border:1px solid #e5e7eb; border-radius:10px;">
+                        </div>
+                    </div>
+                    <button type="submit" class="gradient-btn-full">Add to Pantry</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="glass-nav">
+            <button class="nav-item active" data-tab="pantry">
+                <i data-lucide="package"></i>
+                <span>Pantry</span>
+            </button>
+            <button class="nav-item" data-tab="predict">
+                <i data-lucide="bar-chart-2"></i>
+                <span>Predict</span>
+            </button>
+            <button class="nav-item" data-tab="tips">
+                <i data-lucide="lightbulb"></i>
+                <span>Tips</span>
+            </button>
+            <button class="nav-item" data-tab="reminders">
+                <i data-lucide="bell"></i>
+                <span>Alerts</span>
+            </button>
+        </nav>
+    </main>
+
+    <script src="seller.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>
