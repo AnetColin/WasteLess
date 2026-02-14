@@ -99,12 +99,17 @@ firebase deploy
 
 ![Screenshot1](Add screenshot 1 here with proper name)
 *Add caption explaining what this shows*
+<img width="1366" height="768" alt="Screenshot (130)" src="https://github.com/user-attachments/assets/1660ccff-cdc1-48bc-85a8-540355f4a043" />
+
 
 ![Screenshot2](Add screenshot 2 here with proper name)
 *Add caption explaining what this shows*
+<img width="1366" height="768" alt="Screenshot (135)" src="https://github.com/user-attachments/assets/a78e5238-f000-4eda-b083-38b7c2b250ba" />
+
 
 ![Screenshot3](Add screenshot 3 here with proper name)
 *Add caption explaining what this shows*
+<img width="1366" height="768" alt="Screenshot (138)" src="https://github.com/user-attachments/assets/73763478-bf3b-4b88-a784-08fb853aee0a" />
 
 #### Diagrams
 
@@ -195,6 +200,7 @@ firebase deploy
 ### Video
 [Add your demo video link here - YouTube, Google Drive, etc.]
 
+
 *Explain what the video demonstrates - key features, user flow, technical highlights*
 
 ### Additional Demos
@@ -238,13 +244,6 @@ If you used AI tools during development, document them here for transparency:
 
 ## License
 
-This project is licensed under the [LICENSE_NAME] License - see the [LICENSE](LICENSE) file for details.
 
-**Common License Options:**
-- MIT License (Permissive, widely used)
-- Apache 2.0 (Permissive with patent grant)
-- GPL v3 (Copyleft, requires derivative works to be open source)
-
----
 
 Made with ❤️ at TinkerHub
