@@ -2,27 +2,34 @@
   <img src="./img.png" alt="Project Banner" width="100%">
 </p>
 
-# [Project Name] 🎯
+# WASTELESS-Smart Kitchen
 
 ## Basic Details
 
-### Team Name: [Name]
+### Team Name: INNOVIX
 
 ### Team Members
-- Member 1: [Name] - [College]
-- Member 2: [Name] - [College]
+- Member 1: Anet Colin Rockey- Christ College Of Engineering
+- Member 2: Ann Sani- Christ College Of Engineering
 
 ### Hosted Project Link
-[mention your project hosted link here]
+https://wasteless-20ac3.web.app/
 
 ### Project Description
-[2-3 lines about what your project does]
+WasteLess Smart Kitchen is a dynamic web app that helps users track food items in their kitchen by adding name, quantity, and expiry dates. It displays real‑time status (Fresh / At Risk / Expired), generates simple prediction stats, and highlights items nearing expiry in a colorful, animated UI. This tool helps reduce food waste and keeps users informed about their pantry at a glance. 
 
 ### The Problem statement
-[What problem are you solving?]
+Despite growing awareness of sustainability, household food waste remains a major problem. Globally, households are responsible for a large share of food waste — with more than one billion meals discarded every day, contributing to about 8–10% of global greenhouse gas emissions and wasting valuable resources like land, water, and energy.
+At the consumer level, people often forget what food they have, misinterpret expiry dates, and lack simple tools to track and manage their pantry items. As a result, edible food is thrown away unnecessarily, increasing both everyday waste and environmental impact.
+WasteLess Smart Kitchen addresses this challenge by giving users a dynamic way to track the food they already have, monitor expiry dates, and reduce preventable waste through organized pantry management and timely reminders.
 
 ### The Solution
-[How are you solving it?]
+WasteLess Smart Kitchen provides a simple yet powerful digital pantry management tool that helps users avoid food waste and stay organized:
+-Users can add food items with name, quantity, and expiry date so nothing gets forgotten.
+-The app calculates and displays the status of items dynamically (Fresh / At Risk / Expired) based on real dates.
+-It gives users predictive insights about how many items are fresh or near expiry and highlights those that need attention.
+-Through its vibrant, animated UI and status indicators, users get intuitive reminders of what needs to be used soon — a form of practical expiry alerting similar to smart pantry trackers that help households reduce food waste by monitoring expiration dates and issuing alerts.
+This solution turns manual tracking (notes or memory) into a smart, visual, and real‑time digital experience that encourages mindful use of food and helps reduce everyday household waste.
 
 ---
 
@@ -31,49 +38,56 @@
 ### Technologies/Components Used
 
 **For Software:**
-- Languages used: [e.g., JavaScript, Python, Java]
-- Frameworks used: [e.g., React, Django, Spring Boot]
-- Libraries used: [e.g., axios, pandas, JUnit]
-- Tools used: [e.g., VS Code, Git, Docker]
+- Languages used: HTML, CSS, JavaScript (core web languages used to build dynamic interfaces and interactivity)
+- Frameworks used: No major frontend framework (built with vanilla JavaScript + DOM manipulation)
+- Libraries used: None (custom JavaScript logic for UI updates and expiry calculations)
+- Tools used:
+     VS Code — Code editor for development
+     Git & GitHub — Version control for project collaboration
+     Firebase Hosting — Web app deployment platform
+-For Backend / Database:
+   Firebase (hosting) — Used to serve the web app online (no persistent backend database yet)
+-For UI & Animations:
+  CSS gradients and transitions for vibrant background effects
+  JavaScript DOM animations and state‑based UI updates
+-For Project Management/Deployment:
+   GitHub for source control
+  Firebase Console for deployment settings
 
-**For Hardware:**
-- Main components: [List main components]
-- Specifications: [Technical specifications]
-- Tools required: [List tools needed]
 
 ---
 
 ## Features
-
-List the key features of your project:
-- Feature 1: [Description]
-- Feature 2: [Description]
-- Feature 3: [Description]
-- Feature 4: [Description]
+- 🧾 **Pantry Tab:** Add, view, and delete food items
+- 📊 **Predict Tab:** Display dynamic counts of Fresh / At Risk / Expired items
+- 💡 **Tips Tab:** Show helpful suggestions (placeholder with vibrant design)
+- 🔔 **Reminders Tab:** Display alert cards for imminent expiries
+- 📅 **Expiry Logic:** Calculate item status automatically based on date
+- 💫 **Dynamic UI:** Gradient backgrounds, animated transitions, responsive design
+- 🗑️ **Delete Functionality:** Remove items easily
+- 🚀 **Smooth Navigation:** Bottom navigation with animated content switching
 
 ---
 
 ## Implementation
 
 ### For Software:
-
-#### Installation
+### Installation
 ```bash
-[Installation commands - e.g., npm install, pip install -r requirements.txt]
+git clone https://github.com/AnetColin/WasteLess.git
+cd WasteLess
+```
+### Run Locally
+1. Open `index.html` in your browser  
+2. Or use a local server (e.g., Live Server in VS Code)
+
+### Deploy to Firebase
+```bash
+firebase login
+firebase init
+firebase deploy
 ```
 
-#### Run
-```bash
-[Run commands - e.g., npm start, python app.py]
-```
-
-### For Hardware:
-
-#### Components Required
-[List all components needed with specifications]
-
-#### Circuit Setup
-[Explain how to set up the circuit]
 
 ---
 
@@ -106,15 +120,6 @@ List the key features of your project:
 
 ---
 
-### For Hardware:
-
-#### Schematic & Circuit
-
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
 
 #### Build Photos
 
@@ -215,149 +220,6 @@ xcodebuild -workspace App.xcworkspace -scheme App -configuration Debug
 
 ---
 
-### For Hardware Projects:
-
-#### Bill of Materials (BOM)
-
-| Component | Quantity | Specifications | Price | Link/Source |
-|-----------|----------|----------------|-------|-------------|
-| Arduino Uno | 1 | ATmega328P, 16MHz | ₹450 | [Link] |
-| LED | 5 | Red, 5mm, 20mA | ₹5 each | [Link] |
-| Resistor | 5 | 220Ω, 1/4W | ₹1 each | [Link] |
-| Breadboard | 1 | 830 points | ₹100 | [Link] |
-| Jumper Wires | 20 | Male-to-Male | ₹50 | [Link] |
-| [Add more...] | | | | |
-
-**Total Estimated Cost:** ₹[Amount]
-
-#### Assembly Instructions
-
-**Step 1: Prepare Components**
-1. Gather all components listed in the BOM
-2. Check component specifications
-3. Prepare your workspace
-![Step 1](images/assembly-step1.jpg)
-*Caption: All components laid out*
-
-**Step 2: Build the Power Supply**
-1. Connect the power rails on the breadboard
-2. Connect Arduino 5V to breadboard positive rail
-3. Connect Arduino GND to breadboard negative rail
-![Step 2](images/assembly-step2.jpg)
-*Caption: Power connections completed*
-
-**Step 3: Add Components**
-1. Place LEDs on breadboard
-2. Connect resistors in series with LEDs
-3. Connect LED cathodes to GND
-4. Connect LED anodes to Arduino digital pins (2-6)
-![Step 3](images/assembly-step3.jpg)
-*Caption: LED circuit assembled*
-
-**Step 4: [Continue for all steps...]**
-
-**Final Assembly:**
-![Final Build](images/final-build.jpg)
-*Caption: Completed project ready for testing*
-
----
-
-### For Scripts/CLI Tools:
-
-#### Command Reference
-
-**Basic Usage:**
-```bash
-python script.py [options] [arguments]
-```
-
-**Available Commands:**
-- `command1 [args]` - Description of what command1 does
-- `command2 [args]` - Description of what command2 does
-- `command3 [args]` - Description of what command3 does
-
-**Options:**
-- `-h, --help` - Show help message and exit
-- `-v, --verbose` - Enable verbose output
-- `-o, --output FILE` - Specify output file path
-- `-c, --config FILE` - Specify configuration file
-- `--version` - Show version information
-
-**Examples:**
-
-```bash
-# Example 1: Basic usage
-python script.py input.txt
-
-# Example 2: With verbose output
-python script.py -v input.txt
-
-# Example 3: Specify output file
-python script.py -o output.txt input.txt
-
-# Example 4: Using configuration
-python script.py -c config.json --verbose input.txt
-```
-
-#### Demo Output
-
-**Example 1: Basic Processing**
-
-**Input:**
-```
-This is a sample input file
-with multiple lines of text
-for demonstration purposes
-```
-
-**Command:**
-```bash
-python script.py sample.txt
-```
-
-**Output:**
-```
-Processing: sample.txt
-Lines processed: 3
-Characters counted: 86
-Status: Success
-Output saved to: output.txt
-```
-
-**Example 2: Advanced Usage**
-
-**Input:**
-```json
-{
-  "name": "test",
-  "value": 123
-}
-```
-
-**Command:**
-```bash
-python script.py -v --format json data.json
-```
-
-**Output:**
-```
-[VERBOSE] Loading configuration...
-[VERBOSE] Parsing JSON input...
-[VERBOSE] Processing data...
-{
-  "status": "success",
-  "processed": true,
-  "result": {
-    "name": "test",
-    "value": 123,
-    "timestamp": "2024-02-07T10:30:00"
-  }
-}
-[VERBOSE] Operation completed in 0.23s
-```
-
----
-
 ## Project Demo
 
 ### Video
@@ -399,10 +261,8 @@ If you used AI tools during development, document them here for transparency:
 ---
 
 ## Team Contributions
-
-- [Name 1]: [Specific contributions - e.g., Frontend development, API integration, etc.]
-- [Name 2]: [Specific contributions - e.g., Backend development, Database design, etc.]
-- [Name 3]: [Specific contributions - e.g., UI/UX design, Testing, Documentation, etc.]
+**Anet Colin:** UI design, JavaScript logic, animated transitions, deployment  
+- **Ann Sani:** UX flow, styling, feature coordination, testing
 
 ---
 
