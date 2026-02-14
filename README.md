@@ -161,7 +161,7 @@ If you used AI tools during development, document them here for transparency:
 - Feature enhancement ideas
 - Debugging suggestions
 
-**Percentage of AI-generated code:** ~15%
+**Percentage of AI-generated code:** ~40%
 
 **Human Contributions:**
 - Complete frontend implementation
