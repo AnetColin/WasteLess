@@ -117,6 +117,7 @@ firebase deploy
 
 ![Architecture Diagram](docs/architecture.png)
 *Explain your system architecture - components, data flow, tech stack interaction*
+<img width="3178" height="8192" alt="diagram" src="https://github.com/user-attachments/assets/fd33bbc3-f91e-4188-8d30-dbae7bc1744e" />
 
 **Application Workflow:**
 
@@ -126,72 +127,9 @@ firebase deploy
 ---
 
 
-#### Build Photos
-
-![Team](Add photo of your team here)
-
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
-
----
-
-## Additional Documentation
-
-### For Web Projects with Backend:
-
-#### API Documentation
-
-**Base URL:** `https://api.yourproject.com`
-
-##### Endpoints
-
-**GET /api/endpoint**
-- **Description:** [What it does]
-- **Parameters:**
-  - `param1` (string): [Description]
-  - `param2` (integer): [Description]
-- **Response:**
-```json
-{
-  "status": "success",
-  "data": {}
-}
-```
-
-**POST /api/endpoint**
-- **Description:** [What it does]
-- **Request Body:**
-```json
-{
-  "field1": "value1",
-  "field2": "value2"
-}
-```
-- **Response:**
-```json
-{
-  "status": "success",
-  "message": "Operation completed"
-}
-```
-
-[Add more endpoints as needed...]
-
----
-
 ### For Mobile Apps:
 
-#### App Flow Diagram
-
-![App Flow](docs/app-flow.png)
-*Explain the user flow through your application*
-
+https://wasteless-20ac3.web.app/
 
 
 
@@ -199,6 +137,7 @@ firebase deploy
 
 ### Video
 [Add your demo video link here - YouTube, Google Drive, etc.]
+
 
 
 *Explain what the video demonstrates - key features, user flow, technical highlights*
@@ -211,39 +150,31 @@ firebase deploy
 ## AI Tools Used (Optional - For Transparency Bonus)
 
 If you used AI tools during development, document them here for transparency:
+ **Tool Used:** ChatGPT
 
-**Tool Used:** [e.g., GitHub Copilot, v0.dev, Cursor, ChatGPT, Claude]
+**Purpose:**
+- Documentation structuring
+- Feature enhancement ideas
+- Debugging suggestions
 
-**Purpose:** [What you used it for]
-- Example: "Generated boilerplate React components"
-- Example: "Debugging assistance for async functions"
-- Example: "Code review and optimization suggestions"
-
-**Key Prompts Used:**
-- "Create a REST API endpoint for user authentication"
-- "Debug this async function that's causing race conditions"
-- "Optimize this database query for better performance"
-
-**Percentage of AI-generated code:** [Approximately X%]
+**Percentage of AI-generated code:** ~15%
 
 **Human Contributions:**
-- Architecture design and planning
-- Custom business logic implementation
-- Integration and testing
+- Complete frontend implementation
+- Firebase integration and configuration
 - UI/UX design decisions
-
-*Note: Proper documentation of AI usage demonstrates transparency and earns bonus points in evaluation!*
+- Testing and deployment
 
 ---
 
 ## Team Contributions
-**Anet Colin:** UI design, JavaScript logic, animated transitions, deployment  
+- **Anet Colin:** UI design, JavaScript logic, animated transitions, deployment  
 - **Ann Sani:** UX flow, styling, feature coordination, testing
 
 ---
 
 ## License
 
-
+This project is licensed under the MIT License.
 
 Made with ❤️ at TinkerHub
