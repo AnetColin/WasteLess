@@ -97,20 +97,23 @@ firebase deploy
 
 #### Screenshots (Add at least 3)
 
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+<img width="1905" height="835" alt="image" src="https://github.com/user-attachments/assets/f6b7bfb0-de2d-4131-9f6f-a34fbbb3e335" /> 
+*This shows the front page in which we can choose whether we are a seller or a user.*
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+<img width="1918" height="834" alt="image" src="https://github.com/user-attachments/assets/59a4fa15-8446-4aa5-82a8-81d810e3e29e" />
+*This page shows buyers registration page.*
+
+<img width="1560" height="843" alt="image" src="https://github.com/user-attachments/assets/3868bfda-0e68-495b-903d-cbb18f1ff823" />
+*This page shows sellers registration page.*
+
 
 #### Diagrams
 
 **System Architecture:**
 
-![Architecture Diagram](docs/architecture.png)
+![Uploading Untitled diagram-2026-02-13-123912 (1).png…]()
+
 *Explain your system architecture - components, data flow, tech stack interaction*
 
 **Application Workflow:**
@@ -187,8 +190,38 @@ firebase deploy
 ![App Flow](docs/app-flow.png)
 *Explain the user flow through your application*
 
+#### Installation Guide
 
+**For Android (APK):**
+1. Download the APK from [Release Link]
+2. Enable "Install from Unknown Sources" in your device settings:
+   - Go to Settings > Security
+   - Enable "Unknown Sources"
+3. Open the downloaded APK file
+4. Follow the installation prompts
+5. Open the app and enjoy!
 
+**For iOS (IPA) - TestFlight:**
+1. Download TestFlight from the App Store
+2. Open this TestFlight link: [Your TestFlight Link]
+3. Click "Install" or "Accept"
+4. Wait for the app to install
+5. Open the app from your home screen
+
+**Building from Source:**
+```bash
+# For Android
+flutter build apk
+# or
+./gradlew assembleDebug
+
+# For iOS
+flutter build ios
+# or
+xcodebuild -workspace App.xcworkspace -scheme App -configuration Debug
+```
+
+---
 
 ## Project Demo
 
