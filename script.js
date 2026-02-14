@@ -162,3 +162,7 @@ document.getElementById('user-login-form').addEventListener('submit', (e) => han
 document.getElementById('user-register-form').addEventListener('submit', (e) => handleRegister(e, 'user'));
 document.getElementById('buyer-login-form').addEventListener('submit', (e) => handleLogin(e, 'buyer'));
 document.getElementById('buyer-register-form').addEventListener('submit', (e) => handleRegister(e, 'buyer'));
+
+// Initialize Icons
+lucide.createIcons();
+
