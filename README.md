@@ -137,7 +137,11 @@ https://wasteless-20ac3.web.app/
 
 ### Video
 [Add your demo video link here - YouTube, Google Drive, etc.]
-
+<video width="320" height="240" controls>
+  <source src="C:\Users\Anet\OneDrive\Desktop\demo.mp4" type="video/mp4">
+ 
+Your browser does not support the video tag.
+</video>
 
 
 *Explain what the video demonstrates - key features, user flow, technical highlights*
