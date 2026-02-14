@@ -9,14 +9,37 @@ import {
     getDoc
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// --- DOM Elements ---
-const roleSelection = document.getElementById('role-selection');
-const userAuth = document.getElementById('user-auth');
-const buyerAuth = document.getElementById('buyer-auth');
+// --- Helpers ---
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
-// --- Navigation Logic --- (Exposed to window for inline onclicks)
+function redirectUser(role) {
+    try {
+        localStorage.setItem('wasteless_user_role', role);
+        localStorage.setItem('wasteless_is_logged_in', 'true');
 
-window.selectRole = function (role) {
+        if (role === 'user') {
+            window.location.href = 'seller-dashboard.html';
+        } else {
+            window.location.href = 'buyer-dashboard.html';
+        }
+    } catch (e) {
+        console.error("Storage Error:", e);
+        // Fallback redirect even if storage fails
+        window.location.href = role === 'user' ? 'seller-dashboard.html' : 'buyer-dashboard.html';
+    }
+}
+
+// --- Navigation Logic ---
+
+function selectRole(role) {
+    const roleSelection = document.getElementById('role-selection');
+    const userAuth = document.getElementById('user-auth');
+    const buyerAuth = document.getElementById('buyer-auth');
+
+    if (!roleSelection || !userAuth || !buyerAuth) return;
+
     roleSelection.classList.add('hidden');
     if (role === 'user') {
         userAuth.classList.remove('hidden');
@@ -27,17 +50,25 @@ window.selectRole = function (role) {
     }
 }
 
-window.showRoles = function () {
+function showRoles() {
+    const roleSelection = document.getElementById('role-selection');
+    const userAuth = document.getElementById('user-auth');
+    const buyerAuth = document.getElementById('buyer-auth');
+
+    if (!roleSelection || !userAuth || !buyerAuth) return;
+
     userAuth.classList.add('hidden');
     buyerAuth.classList.add('hidden');
     roleSelection.classList.remove('hidden');
     roleSelection.classList.add('fade-in');
 }
 
-window.toggleForm = function (role, type) {
+function toggleForm(role, type) {
     const title = document.getElementById(`${role}-form-title`);
     const loginForm = document.getElementById(`${role}-login-form`);
     const registerForm = document.getElementById(`${role}-register-form`);
+
+    if (!title || !loginForm || !registerForm) return;
 
     if (type === 'register') {
         title.textContent = `${capitalize(role)} Registration`;
@@ -52,11 +83,7 @@ window.toggleForm = function (role, type) {
     }
 }
 
-function capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-// --- Auth Logic (Real Firebase Backend) ---
+// --- Auth Logic ---
 
 async function handleRegister(e, role) {
     e.preventDefault();
@@ -77,15 +104,14 @@ async function handleRegister(e, role) {
     }
 
     const btn = form.querySelector('button');
+    const originalText = btn.textContent;
     btn.textContent = "Creating Account...";
     btn.disabled = true;
 
     try {
-        // 1. Create User in Auth
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // 2. Store Role and Name in Firestore
         await setDoc(doc(db, "users", user.uid), {
             name: name,
             email: email,
@@ -101,9 +127,9 @@ async function handleRegister(e, role) {
         if (error.code === 'auth/email-already-in-use') {
             errorMsg = "This email is already registered. Please login instead.";
         }
-        alert("Registration Error: " + errorMsg + "\n\nTip: Make sure you have created a 'Cloud Firestore' database in your Firebase Console and set the rules to allow writes.");
+        alert("Registration Error: " + errorMsg);
     } finally {
-        btn.textContent = "Register";
+        btn.textContent = originalText;
         btn.disabled = false;
     }
 }
@@ -115,54 +141,58 @@ async function handleLogin(e, role) {
     const password = form.querySelector('input[type="password"]').value;
 
     const btn = form.querySelector('button');
+    const originalText = btn.textContent;
     btn.textContent = "Logging in...";
     btn.disabled = true;
 
     try {
-        // 1. Sign in
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
-
-        // 2. Verify Role from Firestore
         const userDoc = await getDoc(doc(db, "users", user.uid));
 
         if (userDoc.exists()) {
             const userData = userDoc.data();
-            if (userData.role !== role) {
-                alert(`Warning: You are registered as a ${userData.role}, but logging in as a ${role}.`);
-            }
             redirectUser(userData.role);
         } else {
-            console.warn("User document not found in Firestore.");
             redirectUser(role);
         }
     } catch (error) {
         console.error("Login Error:", error);
         alert("Login Error: " + error.message);
     } finally {
-        btn.textContent = "Login";
+        btn.textContent = originalText;
         btn.disabled = false;
     }
 }
 
-function redirectUser(role) {
-    localStorage.setItem('wasteless_user_role', role);
-    localStorage.setItem('wasteless_is_logged_in', 'true');
+// --- Initialize ---
 
-    if (role === 'user') {
-        window.location.href = 'seller-dashboard.html';
-    } else {
-        window.location.href = 'buyer-dashboard.html';
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("Wasteless Login Init...");
+
+    // Role Selection
+    document.getElementById('select-user-role')?.addEventListener('click', () => selectRole('user'));
+    document.getElementById('select-buyer-role')?.addEventListener('click', () => selectRole('buyer'));
+
+    // Back Buttons
+    document.querySelectorAll('.back-btn').forEach(btn => {
+        btn.addEventListener('click', showRoles);
+    });
+
+    // Form Switchers
+    document.getElementById('switch-to-user-register')?.addEventListener('click', () => toggleForm('user', 'register'));
+    document.getElementById('switch-to-user-login')?.addEventListener('click', () => toggleForm('user', 'login'));
+    document.getElementById('switch-to-buyer-register')?.addEventListener('click', () => toggleForm('buyer', 'register'));
+    document.getElementById('switch-to-buyer-login')?.addEventListener('click', () => toggleForm('buyer', 'login'));
+
+    // Auth Forms
+    document.getElementById('user-login-form')?.addEventListener('submit', (e) => handleLogin(e, 'user'));
+    document.getElementById('user-register-form')?.addEventListener('submit', (e) => handleRegister(e, 'user'));
+    document.getElementById('buyer-login-form')?.addEventListener('submit', (e) => handleLogin(e, 'buyer'));
+    document.getElementById('buyer-register-form')?.addEventListener('submit', (e) => handleRegister(e, 'buyer'));
+
+    // Icons
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
     }
-}
-
-// --- Event Listeners ---
-
-document.getElementById('user-login-form').addEventListener('submit', (e) => handleLogin(e, 'user'));
-document.getElementById('user-register-form').addEventListener('submit', (e) => handleRegister(e, 'user'));
-document.getElementById('buyer-login-form').addEventListener('submit', (e) => handleLogin(e, 'buyer'));
-document.getElementById('buyer-register-form').addEventListener('submit', (e) => handleRegister(e, 'buyer'));
-
-// Initialize Icons
-lucide.createIcons();
-
+});

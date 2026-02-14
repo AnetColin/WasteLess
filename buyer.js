@@ -2,23 +2,32 @@
 const getSellerItems = () => {
     try {
         const saved = localStorage.getItem('wasteless_items');
-        return saved ? JSON.parse(saved) : [];
-    } catch (e) { return []; }
+        if (!saved) return [];
+        const parsed = JSON.parse(saved);
+        return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+        console.error("Seller data error:", e);
+        return [];
+    }
 };
 
 const getBuyerItems = () => {
     try {
         const saved = localStorage.getItem('wasteless_buyer_items');
-        // Default items for new buyers
         const defaults = [
-            { id: 991, name: 'Leftover Rice 🍚', qty: 1, expiry: '2026-02-15' }, // Default for recipe demo
+            { id: 991, name: 'Leftover Rice 🍚', qty: 1, expiry: '2026-02-15' },
         ];
-        return saved ? JSON.parse(saved) : defaults;
-    } catch (e) { return []; }
+        if (!saved) return defaults;
+        const parsed = JSON.parse(saved);
+        return Array.isArray(parsed) ? parsed : defaults;
+    } catch (e) {
+        console.error("Buyer data error:", e);
+        return [];
+    }
 };
 
 const state = {
-    currentTab: 'market', // Default tab
+    currentTab: 'market',
     marketItems: getSellerItems(),
     myItems: getBuyerItems(),
     tips: [
@@ -38,7 +47,11 @@ const closeModalBtn = document.getElementById('close-modal');
 const addItemForm = document.getElementById('add-item-form');
 
 // --- Icons Init ---
-const initIcons = () => lucide.createIcons();
+const initIcons = () => {
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+};
 
 // --- Helpers ---
 const getFoodIcon = (name) => {
@@ -56,7 +69,11 @@ const getFoodIcon = (name) => {
 };
 
 const saveBuyerItems = () => {
-    localStorage.setItem('wasteless_buyer_items', JSON.stringify(state.myItems));
+    try {
+        localStorage.setItem('wasteless_buyer_items', JSON.stringify(state.myItems));
+    } catch (e) {
+        console.error("Storage save error:", e);
+    }
     render();
 };
 
@@ -74,10 +91,10 @@ const getStatus = (expiryDateStr) => {
 // --- Rendering Functions ---
 
 const renderMarketplace = () => {
+    if (!contentArea) return;
     pageTitle.textContent = "Wasteless - Market";
-    fabAdd.classList.add('hidden');
+    fabAdd?.classList.add('hidden');
 
-    // Filter for items ON SALE from Sellers
     const itemsForSale = state.marketItems.filter(i => i.forSale);
 
     if (itemsForSale.length === 0) {
@@ -91,7 +108,6 @@ const renderMarketplace = () => {
     } else {
         const itemsHtml = itemsForSale.map(item => {
             const icon = getFoodIcon(item.name);
-            // Mock Seller Score logic (persistent based on item ID or random)
             const score = (4.0 + (item.id % 10) / 10).toFixed(1);
 
             return `
@@ -122,7 +138,6 @@ const renderMarketplace = () => {
 };
 
 window.viewSellerProfile = (id) => {
-    // Mock Seller Data Generator based on Item ID
     const names = ["Alice Green", "Chef Bob", "Pantry Saver", "EcoWarrior99"];
     const name = names[id % names.length];
     const score = (4.0 + (id % 10) / 10).toFixed(1);
@@ -135,10 +150,10 @@ window.viewSellerProfile = (id) => {
 };
 
 const renderMyKitchen = () => {
+    if (!contentArea) return;
     pageTitle.textContent = "My Kitchen (Leftovers)";
-    fabAdd.classList.remove('hidden'); // Enable Adding Leftovers
+    fabAdd?.classList.remove('hidden');
 
-    // Sort items
     const sortedItems = [...state.myItems].sort((a, b) => {
         return getStatus(a.expiry).sort - getStatus(b.expiry).sort;
     });
@@ -180,14 +195,14 @@ const renderMyKitchen = () => {
 };
 
 const renderPredict = () => {
+    if (!contentArea) return;
     pageTitle.textContent = "Waste Predictor";
-    fabAdd.classList.add('hidden');
+    fabAdd?.classList.add('hidden');
 
     const freshCount = state.myItems.filter(i => getStatus(i.expiry).label === 'Fresh').length;
     const riskCount = state.myItems.filter(i => getStatus(i.expiry).label === 'At Risk').length;
     const expiredCount = state.myItems.filter(i => getStatus(i.expiry).label === 'Expired').length;
 
-    // Alert Notification Logic inside Predict
     let alertHtml = '';
     if (riskCount > 0 || expiredCount > 0) {
         alertHtml = `
@@ -248,13 +263,12 @@ const renderPredict = () => {
 };
 
 const renderTips = () => {
+    if (!contentArea) return;
     pageTitle.textContent = "Smart Recipes";
-    fabAdd.classList.add('hidden');
+    fabAdd?.classList.add('hidden');
 
-    // Recipes based on MY items
     const hasRice = state.myItems.some(i => i.name.toLowerCase().includes('rice'));
     const hasBread = state.myItems.some(i => i.name.toLowerCase().includes('bread'));
-    const hasMilk = state.myItems.some(i => i.name.toLowerCase().includes('milk'));
 
     let recipeHtml = '';
 
@@ -308,24 +322,26 @@ const renderTips = () => {
         </div>
     `).join('');
 
-    // Inject Recipes + General Tips
     contentArea.innerHTML = `<div class="items-grid"> ${recipeHtml} ${tipsHtml} </div>`;
     initIcons();
 };
 
 const render = () => {
-    contentArea.innerHTML = '';
+    try {
+        if (contentArea) contentArea.innerHTML = '';
 
-    // Update Nav
-    navItems.forEach(item => {
-        item.classList.toggle('active', item.dataset.tab === state.currentTab);
-    });
+        navItems.forEach(item => {
+            item.classList.toggle('active', item.dataset.tab === state.currentTab);
+        });
 
-    switch (state.currentTab) {
-        case 'market': renderMarketplace(); break;
-        case 'kitchen': renderMyKitchen(); break;
-        case 'tips': renderTips(); break;
-        case 'predict': renderPredict(); break;
+        switch (state.currentTab) {
+            case 'market': renderMarketplace(); break;
+            case 'kitchen': renderMyKitchen(); break;
+            case 'tips': renderTips(); break;
+            case 'predict': renderPredict(); break;
+        }
+    } catch (e) {
+        console.error("Render error:", e);
     }
 };
 
@@ -334,7 +350,6 @@ const render = () => {
 window.buyItem = (id) => {
     const item = state.marketItems.find(i => i.id === id);
     if (item) {
-        // Clone item to My Items
         const boughtItem = { ...item, id: Date.now(), forSale: false };
         state.myItems.push(boughtItem);
         saveBuyerItems();
@@ -349,47 +364,48 @@ window.deleteBuyerItem = (id) => {
 
 // --- Event Listeners ---
 
-navItems.forEach(btn => {
-    btn.addEventListener('click', () => {
-        state.currentTab = btn.dataset.tab;
-        render();
-    });
-});
-
-fabAdd.addEventListener('click', () => {
-    modalOverlay.classList.remove('hidden');
-});
-
-closeModalBtn.addEventListener('click', () => {
-    modalOverlay.classList.add('hidden');
-});
-
-addItemForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name = document.getElementById('item-name').value;
-    const qty = document.getElementById('item-qty').value;
-    const expiry = document.getElementById('item-expiry').value;
-
-    const newItem = {
-        id: Date.now(),
-        name,
-        qty,
-        expiry
-    };
-
-    state.myItems.push(newItem);
-    saveBuyerItems();
-
-    modalOverlay.classList.add('hidden');
-    addItemForm.reset();
-});
-
-modalOverlay.addEventListener('click', (e) => {
-    if (e.target === modalOverlay) modalOverlay.classList.add('hidden');
-});
-
-// Init
 document.addEventListener('DOMContentLoaded', () => {
+    console.log("Buyer Dashboard Init...");
+
+    navItems.forEach(btn => {
+        btn.addEventListener('click', () => {
+            state.currentTab = btn.dataset.tab;
+            render();
+        });
+    });
+
+    fabAdd?.addEventListener('click', () => {
+        modalOverlay?.classList.remove('hidden');
+    });
+
+    closeModalBtn?.addEventListener('click', () => {
+        modalOverlay?.classList.add('hidden');
+    });
+
+    addItemForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('item-name').value;
+        const qty = document.getElementById('item-qty').value;
+        const expiry = document.getElementById('item-expiry').value;
+
+        const newItem = {
+            id: Date.now(),
+            name,
+            qty,
+            expiry
+        };
+
+        state.myItems.push(newItem);
+        saveBuyerItems();
+
+        modalOverlay?.classList.add('hidden');
+        addItemForm.reset();
+    });
+
+    modalOverlay?.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) modalOverlay.classList.add('hidden');
+    });
+
     initIcons();
     render();
 });

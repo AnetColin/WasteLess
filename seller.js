@@ -2,26 +2,18 @@
 const getSavedItems = () => {
     try {
         const saved = localStorage.getItem('wasteless_items');
-        if (!saved) return null;
-
+        if (!saved) return [];
         const parsed = JSON.parse(saved);
-        if (!Array.isArray(parsed)) return null;
-
-        // Filter out bad data (nulls, or items without names)
-        return parsed.filter(i => i && typeof i === 'object' && i.name);
+        return Array.isArray(parsed) ? parsed.filter(i => i && i.name) : [];
     } catch (e) {
         console.error("Data corruption detected, resetting inventory:", e);
-        return null;
+        return [];
     }
 };
 
 const state = {
     currentTab: 'pantry',
-    items: getSavedItems() || [
-        { id: 1, name: 'Milk 🥛', qty: 1, expiry: '2026-02-20' },
-        { id: 2, name: 'Avocados 🥑', qty: 3, expiry: '2026-02-18' },
-        { id: 3, name: 'Yogurt 🍦', qty: 2, expiry: '2026-02-10' },
-    ],
+    items: getSavedItems(),
     tips: [
         { title: "Store Potatoes with Apples", content: "Apples release ethylene gas which keeps potatoes from sprouting!" },
         { title: "Revive Wilting Veggies", content: "Soak slightly wilted veggies in ice water for 30 mins to crisp them up." },
@@ -39,7 +31,11 @@ const closeModalBtn = document.getElementById('close-modal');
 const addItemForm = document.getElementById('add-item-form');
 
 // --- Icons Init ---
-const initIcons = () => lucide.createIcons();
+const initIcons = () => {
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+};
 
 // --- Helpers ---
 const getFoodIcon = (name) => {
@@ -52,11 +48,15 @@ const getFoodIcon = (name) => {
     if (n.includes('fish') || n.includes('tuna')) return '🐟';
     if (n.includes('egg')) return '🥚';
     if (n.includes('coffee') || n.includes('tea')) return '☕';
-    return '🥡'; // Default takeout box
+    return '🥡';
 };
 
 const saveItems = () => {
-    localStorage.setItem('wasteless_items', JSON.stringify(state.items));
+    try {
+        localStorage.setItem('wasteless_items', JSON.stringify(state.items));
+    } catch (e) {
+        console.error("Storage save error:", e);
+    }
     render();
 };
 
@@ -74,9 +74,9 @@ const getStatus = (expiryDateStr) => {
 // --- Rendering Functions ---
 
 const renderPantry = () => {
+    if (!contentArea) return;
     pageTitle.textContent = "Wasteless - Pantry";
 
-    // Sort items: Expired -> Risk -> Fresh
     const sortedItems = [...state.items].sort((a, b) => {
         return getStatus(a.expiry).sort - getStatus(b.expiry).sort;
     });
@@ -130,12 +130,13 @@ window.openSellModal = (id) => {
 };
 
 const renderPredict = () => {
+    if (!contentArea) return;
     pageTitle.textContent = "Wasteless - Predictor";
 
     const freshCount = state.items.filter(i => getStatus(i.expiry).label === 'Fresh').length;
     const riskCount = state.items.filter(i => getStatus(i.expiry).label === 'At Risk').length;
     const expiredCount = state.items.filter(i => getStatus(i.expiry).label === 'Expired').length;
-    const moneySaved = freshCount * 5; // Mock calculation
+    const moneySaved = freshCount * 5;
 
     contentArea.innerHTML = `
         <div class="stats-grid">
@@ -159,22 +160,25 @@ const renderPredict = () => {
         
         <div class="glass-card" style="display:block;">
             <h3 style="margin-bottom:0.5rem;">Inventory Health</h3>
-            <div style="width:100%; height:12px; background:rgba(255,255,255,0.1); border-radius:10px; overflow:hidden; display:flex;">
-                <div style="width:${(freshCount / state.items.length) * 100}%; background:#10b981;"></div>
-                <div style="width:${(riskCount / state.items.length) * 100}%; background:#f59e0b;"></div>
-                <div style="width:${(expiredCount / state.items.length) * 100}%; background:#ef4444;"></div>
-            </div>
+            ${state.items.length ? `
+                <div style="width:100%; height:12px; background:rgba(255,255,255,0.1); border-radius:10px; overflow:hidden; display:flex;">
+                    <div style="width:${(freshCount / state.items.length) * 100}%; background:#10b981;"></div>
+                    <div style="width:${(riskCount / state.items.length) * 100}%; background:#f59e0b;"></div>
+                    <div style="width:${(expiredCount / state.items.length) * 100}%; background:#ef4444;"></div>
+                </div>
+            ` : '<p style="text-align:center; font-style:italic;">No data available.</p>'}
             <div style="display:flex; justify-content:space-between; margin-top:0.5rem; font-size:0.8rem; color:var(--text-muted);">
                 <span>Good</span><span>Warning</span><span>Critical</span>
             </div>
         </div>
     `;
+    initIcons();
 };
 
 const renderTips = () => {
+    if (!contentArea) return;
     pageTitle.textContent = "Wasteless - Tips";
 
-    // 1. Detect Leftovers (Rice Logic)
     const hasRice = state.items.some(i => i.name.toLowerCase().includes('rice'));
 
     let recipeHtml = '';
@@ -192,24 +196,14 @@ const renderTips = () => {
             </div>
             
             <div style="display:grid; gap:0.75rem;">
-                <div style="background:rgba(255,255,255,0.6); padding:0.75rem; border-radius:12px;">
-                    <strong>🍋 Lemon Rice (Chitranna)</strong>
-                    <p style="font-size:0.85rem; color:#4b5563; margin-top:0.25rem;">Heat oil, add mustard seeds, curry leaves, turmeric, and peanuts. Mix with leftover rice and squeeze fresh lemon juice.</p>
-                </div>
-                <div style="background:rgba(255,255,255,0.6); padding:0.75rem; border-radius:12px;">
-                    <strong>🍅 Tomato Rice</strong>
-                    <p style="font-size:0.85rem; color:#4b5563; margin-top:0.25rem;">Sauté onions, spices, and chopped tomatoes until mushy. Mix in rice and garnish with coriander.</p>
-                </div>
-                <div style="background:rgba(255,255,255,0.6); padding:0.75rem; border-radius:12px;">
-                    <strong>🧈 Ghee Rice</strong>
-                    <p style="font-size:0.85rem; color:#4b5563; margin-top:0.25rem;">Roast cashews/raisins in ghee. Add whole spices (cardamom/cloves). Toss rice in the aromatic ghee and serve hot.</p>
-                </div>
+                <div style="background:rgba(255,255,255,0.6); padding:0.75rem; border-radius:12px;"><strong>🍋 Lemon Rice</strong></div>
+                <div style="background:rgba(255,255,255,0.6); padding:0.75rem; border-radius:12px;"><strong>🍅 Tomato Rice</strong></div>
             </div>
         </div>
         `;
     }
 
-    const tipsHtml = state.tips.map((tip, index) => `
+    const tipsHtml = state.tips.map((tip) => `
         <div class="glass-card" style="display:block;">
             <div style="display:flex; align-items:center; gap:1rem; margin-bottom:0.5rem;">
                 <div style="width:40px; height:40px; background:rgba(255,255,255,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center;">
@@ -221,12 +215,12 @@ const renderTips = () => {
         </div>
     `).join('');
 
-    // Inject Recipes + General Tips
     contentArea.innerHTML = `<div class="items-grid"> ${recipeHtml} ${tipsHtml} </div>`;
     initIcons();
 };
 
 const renderReminders = () => {
+    if (!contentArea) return;
     pageTitle.textContent = "Wasteless - Alerts";
     const urgentItems = state.items.filter(i => {
         const status = getStatus(i.expiry);
@@ -254,24 +248,31 @@ const renderReminders = () => {
             `;
         }).join('');
     }
+    initIcons();
 };
 
 const render = () => {
-    // Nav Active State
-    navItems.forEach(item => {
-        item.classList.toggle('active', item.dataset.tab === state.currentTab);
-    });
+    try {
+        if (!contentArea) return;
+        contentArea.innerHTML = '';
 
-    // Content Switching
-    switch (state.currentTab) {
-        case 'pantry': renderPantry(); break;
-        case 'predict': renderPredict(); break;
-        case 'tips': renderTips(); break;
-        case 'reminders': renderReminders(); break;
+        navItems.forEach(item => {
+            item.classList.toggle('active', item.dataset.tab === state.currentTab);
+        });
+
+        switch (state.currentTab) {
+            case 'pantry': renderPantry(); break;
+            case 'predict': renderPredict(); break;
+            case 'tips': renderTips(); break;
+            case 'reminders': renderReminders(); break;
+        }
+
+        if (fabAdd) {
+            fabAdd.style.display = state.currentTab === 'pantry' ? 'flex' : 'none';
+        }
+    } catch (e) {
+        console.error("Render error:", e);
     }
-
-    // FAB Visibility
-    fabAdd.style.display = state.currentTab === 'pantry' ? 'flex' : 'none';
 };
 
 // --- Actions ---
@@ -281,54 +282,48 @@ window.deleteItem = (id) => {
     saveItems();
 };
 
-addItemForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name = document.getElementById('item-name').value;
-    const qty = document.getElementById('item-qty').value;
-    const expiry = document.getElementById('item-expiry').value;
-
-    const newItem = {
-        id: Date.now(),
-        name,
-        qty,
-        expiry
-    };
-
-    state.items.push(newItem);
-    saveItems();
-
-    // Close modal
-    modalOverlay.classList.add('hidden');
-    addItemForm.reset();
-});
-
 // --- Event Listeners ---
-
-navItems.forEach(btn => {
-    btn.addEventListener('click', () => {
-        state.currentTab = btn.dataset.tab;
-        render();
-    });
-});
-
-fabAdd.addEventListener('click', () => {
-    modalOverlay.classList.remove('hidden');
-});
-
-closeModalBtn.addEventListener('click', () => {
-    modalOverlay.classList.add('hidden');
-});
-
-modalOverlay.addEventListener('click', (e) => {
-    if (e.target === modalOverlay) modalOverlay.classList.add('hidden');
-});
-
-// --- Init ---
 document.addEventListener('DOMContentLoaded', () => {
     console.log("Wasteless Pantry Initializing...");
 
-    // Calculate total wasted (mock for now if needed, or remove)
-    // calculateImpact(); 
+    navItems.forEach(btn => {
+        btn.addEventListener('click', () => {
+            state.currentTab = btn.dataset.tab;
+            render();
+        });
+    });
+
+    fabAdd?.addEventListener('click', () => {
+        modalOverlay?.classList.remove('hidden');
+    });
+
+    closeModalBtn?.addEventListener('click', () => {
+        modalOverlay?.classList.add('hidden');
+    });
+
+    addItemForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('item-name').value;
+        const qty = document.getElementById('item-qty').value;
+        const expiry = document.getElementById('item-expiry').value;
+
+        const newItem = {
+            id: Date.now(),
+            name,
+            qty,
+            expiry
+        };
+
+        state.items.push(newItem);
+        saveItems();
+
+        modalOverlay?.classList.add('hidden');
+        addItemForm.reset();
+    });
+
+    modalOverlay?.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) modalOverlay.classList.add('hidden');
+    });
 
     initIcons();
     render();

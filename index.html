@@ -33,7 +33,7 @@
 
             <div class="role-grid">
                 <!-- User Role -->
-                <div class="role-card" onclick="selectRole('user')">
+                <div id="select-user-role" class="role-card">
                     <div class="role-icon">
                         <i data-lucide="chef-hat"></i>
                     </div>
@@ -42,7 +42,7 @@
                 </div>
 
                 <!-- Buyer Role -->
-                <div class="role-card" onclick="selectRole('buyer')">
+                <div id="select-buyer-role" class="role-card">
                     <div class="role-icon">
                         <i data-lucide="shopping-bag"></i>
                     </div>
@@ -54,7 +54,7 @@
 
         <!-- User Authentication Forms (Hidden) -->
         <div id="user-auth" class="auth-card hidden">
-            <button class="back-btn" onclick="showRoles()"><i data-lucide="arrow-left"></i> Back</button>
+            <button class="back-btn"><i data-lucide="arrow-left"></i> Back</button>
             <h2 id="user-form-title">User Login</h2>
 
             <!-- User Login -->
@@ -68,7 +68,7 @@
                     <input type="password" placeholder="Password" required>
                 </div>
                 <button type="submit" class="primary-btn">Login</button>
-                <p class="switch-text">New here? <span onclick="toggleForm('user', 'register')">Create Account</span>
+                <p class="switch-text">New here? <span id="switch-to-user-register">Create Account</span>
                 </p>
             </form>
 
@@ -91,14 +91,14 @@
                     <input type="password" placeholder="Confirm Password" required>
                 </div>
                 <button type="submit" class="primary-btn">Register</button>
-                <p class="switch-text">Already have an account? <span onclick="toggleForm('user', 'login')">Login</span>
+                <p class="switch-text">Already have an account? <span id="switch-to-user-login">Login</span>
                 </p>
             </form>
         </div>
 
         <!-- Buyer Authentication Forms (Hidden) -->
         <div id="buyer-auth" class="auth-card hidden">
-            <button class="back-btn" onclick="showRoles()"><i data-lucide="arrow-left"></i> Back</button>
+            <button class="back-btn"><i data-lucide="arrow-left"></i> Back</button>
             <h2 id="buyer-form-title">Buyer Login</h2>
 
             <!-- Buyer Login -->
@@ -112,7 +112,7 @@
                     <input type="password" placeholder="Password" required>
                 </div>
                 <button type="submit" class="primary-btn">Login</button>
-                <p class="switch-text">Want to rescue food? <span onclick="toggleForm('buyer', 'register')">Register as
+                <p class="switch-text">Want to rescue food? <span id="switch-to-buyer-register">Register as
                         Buyer</span></p>
             </form>
 
@@ -139,7 +139,7 @@
                     <input type="password" placeholder="Confirm Password" required>
                 </div>
                 <button type="submit" class="primary-btn">Register</button>
-                <p class="switch-text">Already a buyer? <span onclick="toggleForm('buyer', 'login')">Login</span></p>
+                <p class="switch-text">Already a buyer? <span id="switch-to-buyer-login">Login</span></p>
             </form>
         </div>
 
